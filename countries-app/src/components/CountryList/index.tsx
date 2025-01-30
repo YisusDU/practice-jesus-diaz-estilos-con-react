@@ -1,7 +1,12 @@
 import React from "react";
 import useFilteredCountries from "../../hooks/useFilteredCountries.ts";
 import Header from "../Header/index.tsx";
-import "./styles.css";
+import {
+  CountryForm,
+  RenderCountriesWrapper,
+  CountryCard,
+  LoadingOrError,
+} from "./styles.ts";
 
 const CountryList = () => {
   const {
@@ -13,36 +18,37 @@ const CountryList = () => {
     handleSearchSubmit,
   } = useFilteredCountries();
 
+  // Renderizado de paises
   const renderCountries = () => {
     return (
-      <section className="pillowCards">
+      <RenderCountriesWrapper>
         {filteredCountries.map((country) => {
           const { id, name, capital, population, flags } = country;
           return (
-            <div className="card" key={id}>
+            <CountryCard className="card" key={id}>
               <img loading="lazy" src={flags.png} alt={name.common} />
               <h2>{name.common}</h2>
               <p>Capital: {capital}</p>
               <p>Population: {population}</p>
-            </div>
+            </CountryCard>
           );
         })}
-      </section>
+      </RenderCountriesWrapper>
     );
   };
-
+  //Manejo de pantallas de carga y erroress
   const renderContent = () => {
     if (isLoading)
       return (
-        <div className="loading">
-          <p >Loading...................... 🥱</p>
-        </div>
+        <LoadingOrError>
+          <h2>Loading...................... 🥱</h2>
+        </LoadingOrError>
       );
     if (error)
       return (
-        <div className="error">
-          <p >There was an error loading the countries. 😖</p>
-        </div>
+        <LoadingOrError>
+          <h2>There was an error loading the countries. 😖</h2>
+        </LoadingOrError>
       );
 
     return renderCountries();
@@ -52,7 +58,7 @@ const CountryList = () => {
     <>
       <Header />
       <main>
-        <form>
+        <CountryForm>
           <input
             type="text"
             value={searchTerm}
@@ -60,7 +66,7 @@ const CountryList = () => {
             placeholder="Search for a country..."
           />
           <button onClick={handleSearchSubmit}>Clear</button>
-        </form>
+        </CountryForm>
         {renderContent()}
       </main>
     </>
