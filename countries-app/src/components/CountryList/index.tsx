@@ -6,6 +6,7 @@ import {
   RenderCountriesWrapper,
   CountryCard,
   LoadingOrError,
+  CardPeopleInfo
 } from "./styles.ts";
 
 const CountryList = () => {
@@ -25,11 +26,11 @@ const CountryList = () => {
         {filteredCountries.map((country) => {
           const { id, name, capital, population, flags } = country;
           return (
-            <CountryCard className="card" key={id}>
+            <CountryCard  key={id}>
               <img loading="lazy" src={flags.png} alt={name.common} />
               <h2>{name.common}</h2>
               <p>Capital: {capital}</p>
-              <p>Population: {population}</p>
+              <CardPeopleInfo people={Number(population)}>Population: {population.toLocaleString()}</CardPeopleInfo>
             </CountryCard>
           );
         })}

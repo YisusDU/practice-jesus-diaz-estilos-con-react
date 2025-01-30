@@ -1,4 +1,7 @@
 import styled from "styled-components";
+interface PeopleProps {
+  people?: number;
+}
 
 //Form and input styles
 const CountryForm = styled.form`
@@ -48,7 +51,7 @@ const RenderCountriesWrapper = styled.section`
 `;
 
 //Card styles
-const CountryCard = styled.div`
+const CountryCard = styled.div <PeopleProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -80,6 +83,18 @@ const CountryCard = styled.div`
     border: 1px solid #000;
   }
 `;
+const CardPeopleInfo = styled.p<PeopleProps>`
+  ${(props) => {
+    if (props.people && props.people > 5000000) {
+      return `color: red;`;
+    }
+    if (props.people && props.people > 1000000) {
+      return `color: #ffbf00;`;
+    }
+    return `color: green;`;
+  }}
+`;
+
 
 //Loading and error styles
 const LoadingOrError = styled.div`
@@ -107,5 +122,6 @@ export {
   CountryForm,
   RenderCountriesWrapper,
   CountryCard,
-  LoadingOrError
+  LoadingOrError,
+  CardPeopleInfo
 };
